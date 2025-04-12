@@ -38,7 +38,8 @@ cd status-page
 ```
 
 2. Install dependencies
-   Install [node.js](https://nodejs.org/en) version 22
+
+Install [node.js](https://nodejs.org/en) version 22
 
 ```bash
 npm install -g pnpm@latest-10
