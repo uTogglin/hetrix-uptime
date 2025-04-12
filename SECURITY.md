@@ -14,4 +14,4 @@ currently being supported with security updates.
 
 ## Reporting a Vulnerability
 
-Contact me on discord: irazz or email me at hi@irazz.lol
+Contact me on [Discord](https://discord.gg/fanaticated)
