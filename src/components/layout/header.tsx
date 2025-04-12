@@ -14,7 +14,7 @@ export const Header = memo(function Header() {
           transition={{ duration: 0.3 }}
         >
           <a
-            href="https://waffle.host"
+            href="https://traumasoftware.net"
             className="flex items-center gap-4 hover:opacity-80 transition-opacity"
             aria-label="Go to Waffle.Host homepage"
           >
