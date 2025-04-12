@@ -1,0 +1,290 @@
+{
+  "monitors": [
+    {
+      "id": "e49cdaf3df45c7f149c496cf7f604b38",
+      "name": "Game Panel",
+      "type": "website",
+      "target": "https://panel.waffle.host",
+      "resolve_address": "162.245.185.43",
+      "resolve_address_info": {
+        "ASN": "AS19318",
+        "ISP": "QuadraNet",
+        "City": "Dallas",
+        "Region": "Texas",
+        "Country": "US"
+      },
+      "port": null,
+      "keyword": "",
+      "category": "",
+      "timeout": 10,
+      "check_frequency": 1,
+      "contact_lists": ["6249a1ba4a47ec978f5952019210c36d"],
+      "created_at": 1733009598,
+      "last_check": 1734190406,
+      "last_status_change": 1733009666,
+      "uptime_status": "up",
+      "monitor_status": "active",
+      "uptime": "100.0000",
+      "uptime_incl_maint": "100.0000",
+      "locations": {
+        "new_york": {
+          "uptime_status": "up",
+          "response_time": 100,
+          "last_check": 1734190401
+        },
+        "london": {
+          "uptime_status": "up",
+          "response_time": 260,
+          "last_check": 1734190388
+        },
+        "frankfurt": {
+          "uptime_status": "up",
+          "response_time": 334,
+          "last_check": 1734190404
+        },
+        "dallas": {
+          "uptime_status": "up",
+          "response_time": 142,
+          "last_check": 1734190447
+        }
+      },
+      "ssl_expiration_date": "2025-02-07",
+      "ssl_expiration_warn": false,
+      "ssl_expiration_warn_days": 0,
+      "domain_expiration_date": "2025-11-02",
+      "domain_expiration_warn": false,
+      "domain_expiration_warn_days": 0,
+      "nameservers": ["kallie.ns.cloudflare.com", "roan.ns.cloudflare.com"],
+      "nameservers_change_warn": false,
+      "public_report": true,
+      "public_target": false,
+      "max_redirects": 5,
+      "http_method": "GET",
+      "accepted_http_codes": [200],
+      "verify_ssl_certificate": true,
+      "verify_ssl_hostname": true,
+      "number_of_tries": 3,
+      "triggering_locations": 3,
+      "alert_after_minutes": 0,
+      "repeat_alert_times": 0,
+      "repeat_alert_frequency": 0,
+      "agent_id": null
+    },
+    {
+      "id": "0e3fc42a921d9098fe10a34d312842eb",
+      "name": "New Jersey - 1",
+      "type": "service",
+      "target": "nj-1.na.waffle.host",
+      "resolve_address": "162.245.185.42",
+      "resolve_address_info": {
+        "ASN": "AS19318",
+        "ISP": "QuadraNet",
+        "City": "Dallas",
+        "Region": "Texas",
+        "Country": "US"
+      },
+      "port": 22,
+      "keyword": null,
+      "category": "",
+      "timeout": 5,
+      "check_frequency": 1,
+      "contact_lists": ["6249a1ba4a47ec978f5952019210c36d"],
+      "created_at": 1733009668,
+      "last_check": 1734190409,
+      "last_status_change": 1733009729,
+      "uptime_status": "up",
+      "monitor_status": "active",
+      "uptime": "100.0000",
+      "uptime_incl_maint": "100.0000",
+      "locations": {
+        "new_york": {
+          "uptime_status": "up",
+          "response_time": 52,
+          "last_check": 1734190408
+        },
+        "london": {
+          "uptime_status": "up",
+          "response_time": 85,
+          "last_check": 1734190448
+        },
+        "frankfurt": {
+          "uptime_status": "up",
+          "response_time": 105,
+          "last_check": 1734190443
+        },
+        "dallas": {
+          "uptime_status": "up",
+          "response_time": 55,
+          "last_check": 1734190392
+        }
+      },
+      "ssl_expiration_date": null,
+      "ssl_expiration_warn": false,
+      "ssl_expiration_warn_days": 0,
+      "domain_expiration_date": "2025-11-02",
+      "domain_expiration_warn": false,
+      "domain_expiration_warn_days": 0,
+      "nameservers": ["kallie.ns.cloudflare.com", "roan.ns.cloudflare.com"],
+      "nameservers_change_warn": false,
+      "public_report": true,
+      "public_target": false,
+      "max_redirects": null,
+      "http_method": null,
+      "accepted_http_codes": null,
+      "verify_ssl_certificate": false,
+      "verify_ssl_hostname": false,
+      "number_of_tries": 3,
+      "triggering_locations": 3,
+      "alert_after_minutes": 0,
+      "repeat_alert_times": 0,
+      "repeat_alert_frequency": 0,
+      "agent_id": "bb87082abb90bde1deca15be980bbf8e"
+    },
+    {
+      "id": "323b5b68b19349622dabf868d42d74b3",
+      "name": "VPS Panel",
+      "type": "website",
+      "target": "https://vps.waffle.host",
+      "resolve_address": "5.181.177.244",
+      "resolve_address_info": {
+        "ASN": "AS214677",
+        "ISP": "DELUXHOST",
+        "City": "Frankfurt am Main",
+        "Region": "Hesse",
+        "Country": "DE"
+      },
+      "port": null,
+      "keyword": "",
+      "category": "",
+      "timeout": 10,
+      "check_frequency": 1,
+      "contact_lists": ["6249a1ba4a47ec978f5952019210c36d"],
+      "created_at": 1734130044,
+      "last_check": 1734190412,
+      "last_status_change": 1734130112,
+      "uptime_status": "up",
+      "monitor_status": "active",
+      "uptime": "100.0000",
+      "uptime_incl_maint": "100.0000",
+      "locations": {
+        "new_york": {
+          "uptime_status": "up",
+          "response_time": 1105,
+          "last_check": 1734190399
+        },
+        "san_francisco": {
+          "uptime_status": "up",
+          "response_time": 3993,
+          "last_check": 1734190412
+        },
+        "frankfurt": {
+          "uptime_status": "up",
+          "response_time": 86,
+          "last_check": 1734190397
+        },
+        "dallas": {
+          "uptime_status": "up",
+          "response_time": 682,
+          "last_check": 1734190403
+        }
+      },
+      "ssl_expiration_date": "2025-02-07",
+      "ssl_expiration_warn": false,
+      "ssl_expiration_warn_days": 0,
+      "domain_expiration_date": "2025-11-02",
+      "domain_expiration_warn": false,
+      "domain_expiration_warn_days": 0,
+      "nameservers": ["kallie.ns.cloudflare.com", "roan.ns.cloudflare.com"],
+      "nameservers_change_warn": false,
+      "public_report": true,
+      "public_target": false,
+      "max_redirects": 5,
+      "http_method": "GET",
+      "accepted_http_codes": [200],
+      "verify_ssl_certificate": true,
+      "verify_ssl_hostname": true,
+      "number_of_tries": 3,
+      "triggering_locations": 3,
+      "alert_after_minutes": 0,
+      "repeat_alert_times": 0,
+      "repeat_alert_frequency": 0,
+      "agent_id": null
+    },
+    {
+      "id": "f63c5aeffbad918282d0853a046330a8",
+      "name": "test",
+      "type": "website",
+      "target": "https://irazz.lol",
+      "resolve_address": "",
+      "resolve_address_info": {
+        "ASN": "",
+        "ISP": "",
+        "City": "",
+        "Region": "",
+        "Country": ""
+      },
+      "port": null,
+      "keyword": "",
+      "category": "",
+      "timeout": 10,
+      "check_frequency": 1,
+      "contact_lists": [],
+      "created_at": 1734186688,
+      "last_check": 0,
+      "last_status_change": 0,
+      "uptime_status": "down",
+      "monitor_status": "active",
+      "uptime": "0.0000",
+      "uptime_incl_maint": "0.0000",
+      "locations": {
+        "new_york": {
+          "uptime_status": "down",
+          "response_time": 411,
+          "last_check": 1734190383
+        },
+        "san_francisco": {
+          "uptime_status": "down",
+          "response_time": 530,
+          "last_check": 1734190447
+        },
+        "amsterdam": {
+          "uptime_status": "down",
+          "response_time": 181,
+          "last_check": 1734190397
+        },
+        "london": {
+          "uptime_status": "down",
+          "response_time": 224,
+          "last_check": 1734190401
+        }
+      },
+      "ssl_expiration_date": "2025-02-27",
+      "ssl_expiration_warn": false,
+      "ssl_expiration_warn_days": 0,
+      "domain_expiration_date": null,
+      "domain_expiration_warn": false,
+      "domain_expiration_warn_days": 0,
+      "nameservers": null,
+      "nameservers_change_warn": false,
+      "public_report": false,
+      "public_target": false,
+      "max_redirects": 5,
+      "http_method": "GET",
+      "accepted_http_codes": [200],
+      "verify_ssl_certificate": true,
+      "verify_ssl_hostname": true,
+      "number_of_tries": 3,
+      "triggering_locations": 3,
+      "alert_after_minutes": 0,
+      "repeat_alert_times": 0,
+      "repeat_alert_frequency": 0,
+      "agent_id": null
+    }
+  ],
+  "meta": {
+    "total": 4,
+    "total_filtered": 4,
+    "returned": 4,
+    "pagination": { "current": 1, "last": 1, "previous": null, "next": null }
+  }
+}
