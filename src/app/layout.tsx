@@ -1,20 +1,21 @@
-import '@/app/globals.css'
-import { Inter } from 'next/font/google'
-import { ThemeProvider } from '@/components/theme/theme-provider'
-import { EnvProvider } from '@/providers/env-provider'
-import { env } from '@/utils/env'
+import "@/app/globals.css";
+import { Inter } from "next/font/google";
+import { ThemeProvider } from "@/components/theme/theme-provider";
+import { EnvProvider } from "@/providers/env-provider";
+import { env } from "@/utils/env";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: 'Service Status',
-  description: 'Monitor your service uptime and incidents',
-}
+  title: "Trauma Software | System Status",
+  description:
+    "Find the latest status updates and system monitoring for the entire Trauma Software infrastructure.",
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -37,5 +38,5 @@ export default function RootLayout({
         </EnvProvider>
       </body>
     </html>
-  )
+  );
 }
