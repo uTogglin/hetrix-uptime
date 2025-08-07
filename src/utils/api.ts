@@ -1,5 +1,7 @@
-import {  RawHetrixMonitor, ServerStats } from '../types/hetrix';
+import { RawHetrixMonitor, ServerStats } from '../types/hetrix';
 import { Monitor } from '../types/monitor';
+import moment from 'moment';
+
 const HETRIX_API_TOKEN = process.env.HETRIX_API_TOKEN;
 const HETRIX_API_URL = 'https://api.hetrixtools.com/v3';
 
@@ -103,7 +105,8 @@ export async function fetchMonitors(): Promise<{ monitors: Monitor[] }> {
                     name: monitor.name || monitor.Name,
                     type: monitor.type,
                     category: monitor.category,
-                    monitor_type: monitor.monitor_type
+                    monitor_type: monitor.monitor_type,
+                    locations: monitor.locations,
                 });
 
                 // A monitor has an agent if it's in the Nodes category
@@ -111,12 +114,9 @@ export async function fetchMonitors(): Promise<{ monitors: Monitor[] }> {
                 const hasAgent = category === 'Nodes';
 
                 return {
-                    lastCheck: monitor.last_check || 'unknown',
+                    lastCheck: monitor.last_check,
                     type: monitor.type || 'defaultType',
-                    responseTime: monitor.locations ? 
-                        Object.values(monitor.locations).reduce((acc, loc) => acc + (loc.response_time || 0), 0) / 
-                        Object.keys(monitor.locations).length : 0,
-                    status: (monitor.uptime_status === 'up' ? 'operational' : 
+                    status: (monitor.uptime_status === 'up' ? 'operational' :
                             monitor.uptime_status === 'down' ? 'down' : 
                             monitor.uptime_status === 'maintenance' || monitor.monitor_status === 'maintenance' ? 'degraded' : 
                             'unknown') as 'operational' | 'degraded' | 'down' | 'unknown',
@@ -124,6 +124,15 @@ export async function fetchMonitors(): Promise<{ monitors: Monitor[] }> {
                     name: String(monitor.name || monitor.Name || 'Unknown Monitor'),
                     uptime: Number(parseFloat(monitor.uptime?.toString() || '0').toFixed(2)),
                     category,
+                    locations: monitor.locations ?
+                        Object.fromEntries(
+                            Object.entries(monitor.locations)
+                                .map(([key, { response_time, uptime_status, last_check }]) => [key, {
+                                    responseTime: response_time,
+                                    uptimeStatus: uptime_status,
+                                    lastCheck: last_check,
+                                }])
+                        ) : {},
                     hasAgent
                 };
             }) as Monitor[];

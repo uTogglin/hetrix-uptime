@@ -4,13 +4,13 @@ import { Monitor } from "@/types/monitor"
 import { UptimeMonitor } from "@/components/uptime-monitor"
 import { Skeleton } from "@/components/ui/skeleton"
 import { RefreshButton } from "@/components/ui/refresh-button"
-import { ChevronDown, FolderIcon } from "lucide-react"
+import { AlertTriangle, CheckCircle, ChevronDown, FolderIcon, XCircle } from "lucide-react"
 import { useState, useEffect, useCallback } from "react"
 import { Badge } from "@/components/ui/badge"
 import { groupMonitorsByCategory } from "@/utils/helpers"
 import { motion, AnimatePresence } from "framer-motion"
 
-const STORAGE_KEY = 'openCategories'
+const STORAGE_KEY = 'closedMonitors'
 
 const categoryVariants = {
   hidden: { 
@@ -76,7 +76,7 @@ interface MonitorGridProps {
 
 export function MonitorGrid({ monitors, loading, error, onRefresh }: MonitorGridProps) {
   const [isRefreshing, setIsRefreshing] = useState(false)
-  const [openCategories, setOpenCategories] = useState<string[]>(() => {
+  const [closedMonitors, setClosedMonitors] = useState<string[]>(() => {
     if (typeof window === 'undefined') return []
     try {
       const saved = localStorage.getItem(STORAGE_KEY)
@@ -88,15 +88,15 @@ export function MonitorGrid({ monitors, loading, error, onRefresh }: MonitorGrid
 
   // Save open categories to localStorage
   useEffect(() => {
-    if (openCategories.length > 0) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(openCategories))
+    if (closedMonitors.length > 0) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(closedMonitors))
     } else {
       localStorage.removeItem(STORAGE_KEY)
     }
-  }, [openCategories])
+  }, [closedMonitors])
 
-  const toggleCategory = useCallback((category: string) => {
-    setOpenCategories(prev => {
+  const toggleMonitor = useCallback((category: string) => {
+    setClosedMonitors(prev => {
       const newState = prev.includes(category)
         ? prev.filter(c => c !== category)
         : [...prev, category]
@@ -119,9 +119,6 @@ export function MonitorGrid({ monitors, loading, error, onRefresh }: MonitorGrid
       </div>
     )
   }
-
-  const groupedMonitors = groupMonitorsByCategory(monitors)
-  const categories = Object.keys(groupedMonitors).sort()
 
   return (
     <div className="space-y-6">
@@ -146,34 +143,55 @@ export function MonitorGrid({ monitors, loading, error, onRefresh }: MonitorGrid
         </div>
       ) : (
         <div className="space-y-6">
-          {categories.map((category) => {
-            const stats = groupedMonitors[category]
+          {monitors.map((monitor) => {
+            const getStatusIcon = () => {
+              switch (monitor.status) {
+                case 'operational':
+                  return <CheckCircle className="h-4 w-4 text-green-500" />;
+                case 'degraded':
+                  return <AlertTriangle className="h-4 w-4 text-yellow-500" />;
+                default:
+                  return <XCircle className="h-4 w-4 text-red-500" />;
+              }
+            };
+
+            const getStatusColor = () => {
+              switch (monitor.status) {
+                case 'operational':
+                  return "text-green-500 border-green-500/20";
+                case 'degraded':
+                  return "text-yellow-500 border-yellow-500/20";
+                default:
+                  return "text-red-500 border-red-500/20";
+              }
+            };
 
             return (
               <div 
-                key={category} 
+                key={monitor.id}
                 className="overflow-hidden rounded-lg border bg-card"
               >
                 <button
-                  onClick={() => toggleCategory(category)}
+                  onClick={() => toggleMonitor(monitor.id)}
                   className="flex w-full items-center justify-between p-4 hover:bg-accent/50 transition-colors"
                 >
                   <div className="flex items-center gap-3">
-                    <FolderIcon className="h-4 w-4 text-muted-foreground" />
-                    <span className="font-medium">{category}</span>
+                        {getStatusIcon()}
+                    <span className="font-medium">{monitor.name}</span>
+
                     <Badge variant="outline" className="text-xs">
-                      {stats.averageUptime.toFixed(2)}% uptime
+                      {monitor.uptime.toFixed(2)}% uptime
                     </Badge>
                   </div>
                   <motion.div
-                    animate={{ rotate: openCategories.includes(category) ? 180 : 0 }}
+                    animate={{ rotate: closedMonitors.includes(monitor.id) ? 180 : 0 }}
                     transition={{ duration: 0.2 }}
                   >
                     <ChevronDown className="h-4 w-4 text-muted-foreground" />
                   </motion.div>
                 </button>
                 <AnimatePresence initial={false}>
-                  {openCategories.includes(category) && (
+                  {closedMonitors.includes(monitor.id) && (
                     <motion.div
                       initial="hidden"
                       animate="visible"
@@ -185,14 +203,15 @@ export function MonitorGrid({ monitors, loading, error, onRefresh }: MonitorGrid
                         className="grid gap-4 p-4 sm:grid-cols-2 lg:grid-cols-3"
                         variants={gridVariants}
                       >
-                        {stats.monitors.map((monitor: Monitor) => (
+                        {monitor.locations ?
+                          Object.entries(monitor.locations).map(([name, location]) => (
                           <motion.div
-                            key={monitor.id}
+                            key={name}
                             variants={monitorVariants}
                           >
-                            <UptimeMonitor monitor={monitor} />
+                            <UptimeMonitor name={name} location={location} />
                           </motion.div>
-                        ))}
+                        )) : ''}
                       </motion.div>
                     </motion.div>
                   )}

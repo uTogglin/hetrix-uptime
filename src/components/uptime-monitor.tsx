@@ -1,52 +1,55 @@
 "use client";
 
 import { useState, useEffect, useCallback } from 'react';
-import type { Monitor } from '@/types/monitor';
-import { ServerStats } from './monitors/server-stats';
+import type { Info, Monitor } from '@/types/monitor';
 import { Button } from "@/components/ui/button";
 import { CheckCircle, AlertTriangle, XCircle, RefreshCw, ChevronUp, ChevronDown } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from './ui/skeleton';
-import { env } from '@/utils/env';
+import moment from 'moment';
 
 interface UptimeMonitorProps {
-    monitor: Monitor;
+    name: string;
+    location: Info;
 }
 
-export function UptimeMonitor({ monitor }: UptimeMonitorProps) {
-    console.log(`Monitor ${monitor.name}:`, { 
-        type: monitor.type,
-        category: monitor.category,
-        hasAgent: monitor.hasAgent
-    });
+export function UptimeMonitor({ name, location }: UptimeMonitorProps) {
 
     const getStatusIcon = () => {
-        switch (monitor.status) {
-            case 'operational':
+        switch (location.uptimeStatus) {
+            case 'up':
                 return <CheckCircle className="h-4 w-4 text-green-500" />;
-            case 'degraded':
-                return <AlertTriangle className="h-4 w-4 text-yellow-500" />;
-            default:
+            case 'down':
                 return <XCircle className="h-4 w-4 text-red-500" />;
+            default:
+                return <AlertTriangle className="h-4 w-4 text-yellow-500" />;
         }
     };
 
     const getStatusColor = () => {
-        switch (monitor.status) {
-            case 'operational':
+        switch (location.uptimeStatus) {
+            case 'up':
                 return "text-green-500 border-green-500/20";
-            case 'degraded':
-                return "text-yellow-500 border-yellow-500/20";
-            default:
+            case 'down':
                 return "text-red-500 border-red-500/20";
+            default:
+                return "text-yellow-500 border-yellow-500/20";
         }
     };
 
+    function camelCaseToWords(s: string) {
+      const result = s
+          .replace(/([A-Z])/g, ' $1')
+          .replace(/_/g, ' ');
+        return result.split(' ')
+            .map(str => str.charAt(0).toUpperCase() + str.slice(1))
+            .join(' ');
+    }
+
     return (
         <div className={cn(
-            "group relative overflow-hidden rounded-lg border bg-card px-4 pt-4",
-            monitor.hasAgent && env.showSystemStats ? "pb-2" : "pb-3",
+            "group relative overflow-hidden rounded-lg border bg-card p-4",
             "hover:shadow-sm transition-all duration-200"
         )}>
             <div className="space-y-2.5">
@@ -54,7 +57,7 @@ export function UptimeMonitor({ monitor }: UptimeMonitorProps) {
                 <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2 min-w-0">
                         {getStatusIcon()}
-                        <h3 className="font-medium truncate">{monitor.name}</h3>
+                        <h3 className="font-medium truncate">{camelCaseToWords(name)}</h3>
                     </div>
                     <Badge 
                         variant="outline" 
@@ -63,34 +66,53 @@ export function UptimeMonitor({ monitor }: UptimeMonitorProps) {
                             getStatusColor()
                         )}
                     >
-                        {monitor.status}
+                        {camelCaseToWords(location.uptimeStatus)}
                     </Badge>
                 </div>
 
-                {/* Stats */}
+                {/* Stats
                 <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground">Uptime</span>
                     <span className={cn(
                         "font-medium",
-                        monitor.uptime >= 99 ? "text-green-500" :
-                        monitor.uptime >= 95 ? "text-yellow-500" :
+                        location. >= 99 ? "text-green-500" :
+                        location.uptime >= 95 ? "text-yellow-500" :
                         "text-red-500"
                     )}>
-                        {monitor.uptime.toFixed(2)}%
+                        {location.uptime.toFixed(2)}%
+                    </span>
+                </div> */}
+
+                { location.responseTime ?
+                  <div className="flex items-center justify-between text-sm">
+                      <span className="text-muted-foreground">Response Time</span>
+                      <span className={cn(
+                          "font-medium",
+                          location.responseTime <= 50 ? "text-green-500" :
+                          location.responseTime <= 120 ? "text-yellow-500" :
+                          "text-red-500"
+                      )}>
+                          {location.responseTime}ms
+                      </span>
+                  </div>
+                    : ''
+                }
+
+                <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">Last Checked</span>
+                    <span className={cn(
+                        "font-medium",
+                    )}>
+                      {location.lastCheck == 0 ? 'never'
+                       : moment.unix(location.lastCheck).fromNow()}
                     </span>
                 </div>
-
-                {/* Server Stats - only for monitors with agents and when enabled */}
-                {monitor.hasAgent && env.showSystemStats && (
-                    <div>
-                        <ServerStats monitorId={monitor.id} />
-                    </div>
-                )}
             </div>
         </div>
     );
 }
 
+/*
 export function UptimeMonitorList() {
     const [monitors, setMonitors] = useState<Monitor[]>([]);
     const [lastMonitors, setLastMonitors] = useState<Monitor[]>([]);
@@ -202,3 +224,4 @@ export function UptimeMonitorList() {
         </div>
     );
 }
+*/
