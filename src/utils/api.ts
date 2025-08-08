@@ -25,7 +25,7 @@ const serverStatsCache: {
 } = {};
 
 const CACHE_DURATION = 30 * 1000; // 30 seconds
-const STALE_WHILE_REVALIDATE = 5 * 60 * 1000; // 5 minutes
+const STALE_WHILE_REVALIDATE = 1.5 * 60 * 1000; // 1.5 minutes
 const RATE_LIMIT_COOLDOWN = 60 * 1000; // 1 minute
 
 // Rate limiting queue
@@ -100,14 +100,7 @@ export async function fetchMonitors(): Promise<{ monitors: Monitor[] }> {
 
             const monitorsWithRequiredFields = monitorsData.map((monitor: RawHetrixMonitor) => {
                 // Log raw monitor data
-                console.log('Raw monitor data:', {
-                    id: monitor.id || monitor.ID,
-                    name: monitor.name || monitor.Name,
-                    type: monitor.type,
-                    category: monitor.category,
-                    monitor_type: monitor.monitor_type,
-                    locations: monitor.locations,
-                });
+                console.log('Raw monitor data:', monitor);
 
                 // A monitor has an agent if it's in the Nodes category
                 const category = monitor.category || 'Uncategorized';

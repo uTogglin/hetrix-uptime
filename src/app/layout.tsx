@@ -7,9 +7,9 @@ import { env } from "@/utils/env";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Trauma Software | System Status",
+  title: "uTogglin | System Status",
   description:
-    "Find the latest status updates and system monitoring for the entire Trauma Software infrastructure.",
+    "Find the latest status updates and system monitoring for the entire uTogglin infrastructure.",
 };
 
 export default function RootLayout({

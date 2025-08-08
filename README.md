@@ -6,7 +6,7 @@ A modern, beautiful status page built on top of the Hetrix Tools API, This proje
 
 ## Demo
 
-https://status.traumasoftware.net (Deployed on Cloudflare Pages)
+https://status.utoggl.in (Deployed on Cloudflare Pages)
 
 ## Getting Started
 

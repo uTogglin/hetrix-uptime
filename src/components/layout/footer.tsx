@@ -5,14 +5,13 @@ export function Footer() {
         <div className="flex flex-col items-center text-center sm:text-left text-sm space-y-4">
           <div className="flex flex-col items-center sm:items-start space-y-3">
             <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-1">
-              <span>Custom Made for</span>
               <a
-                href="https://traumasoftware.net"
+                href="https://utoggl.in"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="transition-colors duration-200 hover:text-amber-500 inline-flex items-center gap-1"
               >
-                Traumasoftware.net
+                utoggl.in
                 <svg
                   className="w-3.5 h-3.5"
                   fill="none"
