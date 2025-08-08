@@ -95,11 +95,11 @@ export function MonitorGrid({ monitors, loading, error, onRefresh }: MonitorGrid
     }
   }, [closedMonitors])
 
-  const toggleMonitor = useCallback((monitor: string) => {
+  const toggleMonitor = useCallback((category: string) => {
     setClosedMonitors(prev => {
-      const newState = prev.includes(monitor)
-        ? prev.filter(c => c !== monitor)
-        : [...prev, monitor]
+      const newState = prev.includes(category)
+        ? prev.filter(c => c !== category)
+        : [...prev, category]
       return newState
     })
   }, [])
@@ -155,16 +155,16 @@ export function MonitorGrid({ monitors, loading, error, onRefresh }: MonitorGrid
               }
             };
 
-            // const getStatusColor = () => {
-            //   switch (monitor.status) {
-            //     case 'operational':
-            //       return "text-green-500 border-green-500/20";
-            //     case 'degraded':
-            //       return "text-yellow-500 border-yellow-500/20";
-            //     default:
-            //       return "text-red-500 border-red-500/20";
-            //   }
-            // };
+            const getStatusColor = () => {
+              switch (monitor.status) {
+                case 'operational':
+                  return "text-green-500 border-green-500/20";
+                case 'degraded':
+                  return "text-yellow-500 border-yellow-500/20";
+                default:
+                  return "text-red-500 border-red-500/20";
+              }
+            };
 
             return (
               <div 
@@ -191,7 +191,7 @@ export function MonitorGrid({ monitors, loading, error, onRefresh }: MonitorGrid
                   </motion.div>
                 </button>
                 <AnimatePresence initial={false}>
-                  {closedMonitors.includes(monitor.id) || (
+                  {closedMonitors.includes(monitor.id) && (
                     <motion.div
                       initial="hidden"
                       animate="visible"

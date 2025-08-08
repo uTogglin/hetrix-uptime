@@ -42,9 +42,9 @@ export function UptimeMonitor({ name, location }: UptimeMonitorProps) {
       const result = s
           .replace(/([A-Z])/g, ' $1')
           .replace(/_/g, ' ');
-      return result.split(' ')
-          .map(str => str.charAt(0).toUpperCase() + str.slice(1))
-          .join(' ');
+        return result.split(' ')
+            .map(str => str.charAt(0).toUpperCase() + str.slice(1))
+            .join(' ');
     }
 
     return (
