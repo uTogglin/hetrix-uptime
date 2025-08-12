@@ -8,6 +8,7 @@ import { useMonitors } from '@/hooks/use-monitors'
 import { useCurrentTime } from '@/hooks/use-current-time'
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
 import { Button } from '@/components/ui/button'
+import { TooltipProvider } from '@radix-ui/react-tooltip'
 
 function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
   return (
@@ -50,6 +51,7 @@ export default function Home() {
       <Header />
       
       <main className="container mx-auto px-4 py-8 flex-1 space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+      <TooltipProvider>
         <ErrorBoundary FallbackComponent={ErrorFallback} onReset={refresh}>
           {/* Status Overview */}
           <div className="mb-12">
@@ -70,6 +72,7 @@ export default function Home() {
               />
             </section>
 
+           {/*
             <section className="animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200">
               <div className="space-y-1 mb-6">
                 <h2 className="text-2xl font-bold tracking-tight">Incident History</h2>
@@ -84,9 +87,10 @@ export default function Home() {
                   </p>
                 </div>
               </div>
-            </section>
+            </section> */}
           </div>
         </ErrorBoundary>
+        </TooltipProvider>
       </main>
       
       <Footer />

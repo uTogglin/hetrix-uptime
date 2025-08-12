@@ -1,0 +1,116 @@
+.status-page__resource-ticks {
+  display: flex;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  font-size: 0
+}
+
+.status-page__resource-tick {
+  width: 100%;
+}
+
+.status-page__resource-tick-inner {
+  height: 40px;
+}
+
+@media screen and (min-width: 980px) /* Desktop */ {
+  .daysBackwards-45, .daysBackwards-30 {
+    display: none;
+  }
+}
+
+@media screen  and (max-width: 979px) /* Tablet */ {
+  .status-page__resource-tick:nth-last-child(n+40) {
+    display: none;
+  }
+
+  .daysBackwards-30, .daysBackwards-90 {
+    display: none;
+  }
+}
+
+@media screen  and (max-width: 700px) {
+  .status-page__resource-tick:nth-last-child(n+30) {
+    display: none;
+  }
+
+  .daysBackwards-30, .daysBackwards-90 {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 500px) /* Mobile */ {
+  .status-page__resource-tick:nth-last-child(n+20) {
+    display: none;
+  }
+
+  .daysBackwards-45, .daysBackwards-90 {
+    display: none;
+  }
+
+  .daysBackwards-30 {
+    display: revert;
+  }
+}
+
+.TooltipContent {
+	animation-duration: 400ms;
+	animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+	will-change: transform, opacity;
+}
+.TooltipContent[data-state="delayed-open"][data-side="top"] {
+	animation-name: slideDownAndFade;
+}
+.TooltipContent[data-state="delayed-open"][data-side="right"] {
+	animation-name: slideLeftAndFade;
+}
+.TooltipContent[data-state="delayed-open"][data-side="bottom"] {
+	animation-name: slideUpAndFade;
+}
+.TooltipContent[data-state="delayed-open"][data-side="left"] {
+	animation-name: slideRightAndFade;
+}
+
+@keyframes slideUpAndFade {
+	from {
+		opacity: 0;
+		transform: translateY(2px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes slideRightAndFade {
+	from {
+		opacity: 0;
+		transform: translateX(-2px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes slideDownAndFade {
+	from {
+		opacity: 0;
+		transform: translateY(-2px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes slideLeftAndFade {
+	from {
+		opacity: 0;
+		transform: translateX(2px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}

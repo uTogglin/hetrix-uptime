@@ -1,3 +1,5 @@
+import { Downtime } from "./hetrix";
+
 export interface DailyStatus {
   date: string;
   status: 'operational' | 'degraded' | 'down' | 'unknown';
@@ -13,9 +15,10 @@ export interface Info {
 export interface Monitor {
   id: string;
   name: string;
-  status: 'operational' | 'degraded' | 'down' | 'unknown';
+  status: 'up' | 'down' | 'maintenance';
   uptime: number;
   lastCheck: number;
+  downtimes: Downtime[];
   type: string;
   category: string;
   hasAgent: boolean;

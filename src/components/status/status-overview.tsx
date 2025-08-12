@@ -13,7 +13,7 @@ export function StatusOverview({ monitors, lastUpdated }: StatusOverviewProps) {
     if (downMonitors > 0) {
       return {
         status: 'down',
-        text: `${downMonitors} system${downMonitors > 1 ? 's' : ''} down`,
+        text: `${downMonitors} System${downMonitors > 1 ? 's' : ''} Down`,
         color: 'bg-destructive',
         ring: 'ring-destructive/20'
       }
