@@ -4,13 +4,13 @@ import { Monitor } from "@/types/monitor"
 import { UptimeMonitor } from "@/components/uptime-monitor"
 import { Skeleton } from "@/components/ui/skeleton"
 import { RefreshButton } from "@/components/ui/refresh-button"
-import { AlertTriangle, CheckCircle, ChevronDown, FolderIcon, XCircle } from "lucide-react"
+import { AlertTriangle, CheckCircle, ChevronDown, XCircle } from "lucide-react"
 import { useState, useEffect, useCallback } from "react"
 import { Badge } from "@/components/ui/badge"
 import { motion, AnimatePresence } from "framer-motion"
 import * as _moment from "moment"
 import { Moment } from "moment"
-import { DateRange, extendMoment, MomentRange } from 'moment-range';
+import { DateRange, extendMoment, } from 'moment-range';
 import "@/styles/uptime-bars.css"
 import { Downtime } from "@/types/hetrix"
 import { Tooltip, TooltipTrigger, TooltipPortal, TooltipContent, } from "@radix-ui/react-tooltip";
@@ -289,7 +289,6 @@ export function MonitorGrid({ monitors, loading, error, onRefresh }: MonitorGrid
 	             	<div className='status-page__resource-ticks m-3 gap-[6px]'>
                          {
                              downtimeDays.map((downtime, index) => {
-                               const title = `${downtime.count} incident(s) on ${downtime.date.format('YYYY-MM-DD')}`;
                                console.log(downtime.status);
                                const className = `status-page__resource-tick-inner ${getBgStatusColor(downtime.status)} rounded hover:scale-y-125 transition-transform duration-500`;
 	             		         return (

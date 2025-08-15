@@ -1,12 +1,9 @@
 "use client";
 
-import { useState, useEffect, useCallback } from 'react';
-import type { Info, Monitor } from '@/types/monitor';
-import { Button } from "@/components/ui/button";
-import { CheckCircle, AlertTriangle, XCircle, RefreshCw, ChevronUp, ChevronDown } from 'lucide-react';
+import type { Info } from '@/types/monitor';
+import { CheckCircle, AlertTriangle, XCircle } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
-import { Skeleton } from './ui/skeleton';
 import moment from 'moment';
 
 interface UptimeMonitorProps {

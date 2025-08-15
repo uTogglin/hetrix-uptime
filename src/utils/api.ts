@@ -50,6 +50,15 @@ const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 const downtimeCache: Map<string, Downtime[]> = new Map();
 
+function camelCaseToWords(s: string) {
+  const result = s
+      .replace(/([A-Z])/g, ' $1')
+      .replace(/_/g, ' ');
+    return result.split(' ')
+        .map(str => str.charAt(0).toUpperCase() + str.slice(1))
+        .join(' ');
+}
+
 export async function fetchDowntime(monitor: RawHetrixMonitor): Promise<Downtime[]> {
 
     if (monitor.id) {
@@ -58,14 +67,6 @@ export async function fetchDowntime(monitor: RawHetrixMonitor): Promise<Downtime
             return cacheResult;
     }
 
-    function camelCaseToWords(s: string) {
-      const result = s
-          .replace(/([A-Z])/g, ' $1')
-          .replace(/_/g, ' ');
-        return result.split(' ')
-            .map(str => str.charAt(0).toUpperCase() + str.slice(1))
-            .join(' ');
-    }
 
     await sleep(LAST_DOWNTIME_COOLDOWN);
 
@@ -102,82 +103,88 @@ export async function fetchDowntime(monitor: RawHetrixMonitor): Promise<Downtime
     }
 
     // discord webhook
-    WEBHOOK_URL ? fetch(WEBHOOK_URL, {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        // the username to be displayed
-        username: 'Uptime Monitor',
-        // the avatar to be displayed
-        avatar_url: 'https://uptime.utoggl.in/logo.png',
-        content: "@everyone - The status of the service has changed",
-        allowed_mentions: {
-          "parse": ["everyone"],
-        },
-      })
-    }) : undefined
-    WEBHOOK_URL ? fetch(WEBHOOK_URL, {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        // the username to be displayed
-        username: 'Uptime Monitor',
-        // the avatar to be displayed
-        avatar_url: 'https://uptime.utoggl.in/logo.png',
-        // embeds to be sent
-        embeds: [
-          {
-            // decimal number colour of the side of the embed
-            color: monitor.uptime_status === 'up' ? 0x00ff00 :
-                   monitor.uptime_status === 'down' ? 0xff0000 :
-                   monitor.uptime_status === 'maintenance' ? 0xffa500 : 0,
-            // author
-            // - icon next to text at top (text is a link)
-            author: {
-              name: 'Uptime Monitor',
-              url: 'https://uptime.utoggl.in/',
-              icon_url: 'https://uptime.utoggl.in/favicon.ico',
-            },
-            // embed title
-            // - link on 2nd row
-            title: `Status Change: ${monitor.name || monitor.Name} is now ${monitor.uptime_status} ${monitor.uptime_status === 'up' ? "✅" : monitor.uptime_status === 'maintenance' ? "⚠️" : "❌"}`,
-            url: 'https://uptime.utoggl.in',
-            // custom embed fields: bold title/name, normal content/value below title
-            // - located below description, above image.
-            fields: [
-              {
-                name: 'Service Name',
-                value: monitor.name || monitor.Name,
-              },
-              {
-                name: 'Service URL',
-                value: monitor.target,
-              },
-              ...(monitor.uptime_status == 'up' && downtimeData.downtimes.length !== 0 ? [{
-                  name: 'Down for',
-                  value: (() => {
-                      let latestDown = downtimeData.downtimes.reduce((a, b) => a.end > b.end ? a : b);
-                      let duration = moment.duration(latestDown.end - latestDown.start);
-                      return `${duration.humanize()}`
-                  })()
-              }] : []),
-              ...Object.keys(monitor.locations)
-                 .map((locationKey) => ({
-                     name: `Ping from ${camelCaseToWords(locationKey)}`,
-                     inline: true,
-                     value: `${monitor.locations[locationKey].response_time}ms`
-                 })),
-            ],
-          },
-        ],
-      }),
-    }) : undefined
+    if (WEBHOOK_URL) {
+        sendWebhook(WEBHOOK_URL, monitor, downtimeData);
+    }
 
     return downtimeData.downtimes;
+}
+
+function sendWebhook(webhookUrl: string, monitor: RawHetrixMonitor, downtimeData: HetrixDowntimes) {
+    fetch(webhookUrl, {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            // the username to be displayed
+            username: 'Uptime Monitor',
+            // the avatar to be displayed
+            avatar_url: 'https://uptime.utoggl.in/logo.png',
+            content: "@everyone - The status of the service has changed",
+            allowed_mentions: {
+                "parse": ["everyone"],
+            },
+        })
+    });
+    fetch(webhookUrl, {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            // the username to be displayed
+            username: 'Uptime Monitor',
+            // the avatar to be displayed
+            avatar_url: 'https://uptime.utoggl.in/logo.png',
+            // embeds to be sent
+            embeds: [
+                {
+                    // decimal number colour of the side of the embed
+                    color: monitor.uptime_status === 'up' ? 0x00ff00 :
+                        monitor.uptime_status === 'down' ? 0xff0000 :
+                            monitor.uptime_status === 'maintenance' ? 0xffa500 : 0,
+                    // author
+                    // - icon next to text at top (text is a link)
+                    author: {
+                        name: 'Uptime Monitor',
+                        url: 'https://uptime.utoggl.in/',
+                        icon_url: 'https://uptime.utoggl.in/favicon.ico',
+                    },
+                    // embed title
+                    // - link on 2nd row
+                    title: `Status Change: ${monitor.name || monitor.Name} is now ${monitor.uptime_status} ${monitor.uptime_status === 'up' ? "✅" : monitor.uptime_status === 'maintenance' ? "⚠️" : "❌"}`,
+                    url: 'https://uptime.utoggl.in',
+                    // custom embed fields: bold title/name, normal content/value below title
+                    // - located below description, above image.
+                    fields: [
+                        {
+                            name: 'Service Name',
+                            value: monitor.name || monitor.Name,
+                        },
+                        {
+                            name: 'Service URL',
+                            value: monitor.target,
+                        },
+                        ...(monitor.uptime_status == 'up' && downtimeData.downtimes.length !== 0 ? [{
+                            name: 'Down for',
+                            value: (() => {
+                                const latestDown = downtimeData.downtimes.reduce((a, b) => a.end > b.end ? a : b);
+                                const duration = moment.duration(latestDown.end - latestDown.start);
+                                return `${duration.humanize()}`;
+                            })()
+                        }] : []),
+                        ...Object.keys(monitor.locations)
+                            .map((locationKey) => ({
+                                name: `Ping from ${camelCaseToWords(locationKey)}`,
+                                inline: true,
+                                value: `${monitor.locations[locationKey].response_time}ms`
+                            })),
+                    ],
+                },
+            ],
+        }),
+    });
 }
 
 export async function fetchMonitors(): Promise<{ monitors: Monitor[] }> {
