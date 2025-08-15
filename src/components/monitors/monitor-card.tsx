@@ -11,14 +11,14 @@ interface MonitorCardProps {
 
 export function MonitorCard({ monitor }: MonitorCardProps) {
   const statusConfig = {
-    operational: {
+    up: {
       icon: CheckCircle,
       color: "text-green-500",
       bgColor: "bg-green-500/10",
       borderColor: "border-green-500/20",
       label: "Operational"
     },
-    degraded: {
+    maintenance: {
       icon: AlertTriangle,
       color: "text-yellow-500",
       bgColor: "bg-yellow-500/10",

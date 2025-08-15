@@ -9,12 +9,11 @@ interface IncidentTimelineProps {
 export default function IncidentTimeline({ monitors }: IncidentTimelineProps) {
   // Filter monitors with issues (not operational)
   const incidents = monitors
-    .filter(monitor => monitor.status !== 'operational')
+    .filter(monitor => monitor.status !== 'up')
     .map(monitor => ({
       service: monitor.name,
       status: monitor.status,
       lastCheck: new Date(monitor.lastCheck).toLocaleString(),
-      responseTime: monitor.responseTime
     }))
 
   if (incidents.length === 0) {
@@ -64,9 +63,11 @@ export default function IncidentTimeline({ monitors }: IncidentTimelineProps) {
               )}>
                 {isDown ? 'Service Down' : 'Performance Degraded'}
               </div>
+            {/*
               <div className="text-sm text-muted-foreground">
                 Response time: {incident.responseTime}ms
               </div>
+             */}
             </div>
           </div>
         )

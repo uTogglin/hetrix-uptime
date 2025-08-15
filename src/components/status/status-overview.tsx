@@ -8,7 +8,7 @@ interface StatusOverviewProps {
 export function StatusOverview({ monitors, lastUpdated }: StatusOverviewProps) {
   const getSystemStatus = () => {
     const downMonitors = monitors.filter(m => m.status === 'down').length
-    const degradedMonitors = monitors.filter(m => m.status === 'degraded').length
+    const degradedMonitors = monitors.filter(m => m.status === 'maintenance').length
     
     if (downMonitors > 0) {
       return {

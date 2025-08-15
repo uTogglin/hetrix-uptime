@@ -25,10 +25,10 @@ export function groupMonitorsByCategory(monitors: Monitor[]): { [key: string]: C
     
     // Update counts based on status
     switch (monitor.status) {
-      case 'operational':
+      case 'up':
         acc[category].operationalCount++
         break
-      case 'degraded':
+      case 'maintenance':
         acc[category].degradedCount++
         break
       case 'down':

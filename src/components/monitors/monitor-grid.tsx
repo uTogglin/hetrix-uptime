@@ -208,7 +208,7 @@ export function MonitorGrid({ monitors, loading, error, onRefresh }: MonitorGrid
       ) : (
         <div className="space-y-6">
           {monitors.map((monitor) => {
-            const getStatusIcon = (status) => {
+            const getStatusIcon = (status: 'up' | 'maintenance' | 'down') => {
               switch (status) {
                case 'up':
                   return <CheckCircle className="h-4 w-4 text-green-500" />;
@@ -243,7 +243,7 @@ export function MonitorGrid({ monitors, loading, error, onRefresh }: MonitorGrid
               }
             };
 
-            function toTitleCase(str) {
+            function toTitleCase(str: string) {
               return str.replace(
                 /\w\S*/g,
                 text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
